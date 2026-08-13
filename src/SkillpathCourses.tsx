@@ -25,13 +25,6 @@ type Props = {
   showRefundableBadge?: boolean;
 };
 
-type LoadResult = {
-  courses: Course[] | null;
-  countryCode: CountryCode | null;
-  courseError: string | null;
-  countryError: string | null;
-};
-
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const containerVariants = {
@@ -82,8 +75,10 @@ function isCourseArray(value: unknown): value is Course[] {
         typeof (course as Course).mainCategory === "string" &&
         typeof (course as Course).shortCourse === "string" &&
         typeof (course as Course).courseType === "string" &&
-        typeof (course as Course).pricePaise === "number" &&
-        typeof (course as Course).priceUsdCents === "number" &&
+        Number.isFinite((course as Course).pricePaise) &&
+        (course as Course).pricePaise >= 0 &&
+        Number.isFinite((course as Course).priceUsdCents) &&
+        (course as Course).priceUsdCents >= 0 &&
         typeof (course as Course).refundable === "boolean",
     )
   );
@@ -108,39 +103,6 @@ async function fetchCountryCode(signal: AbortSignal): Promise<CountryCode> {
   const value = await getJson<unknown>(`${API_BASE_URL}/assignment/country-code`, signal);
   if (!isCountryResponse(value)) throw new Error("The country response was not in the expected format.");
   return value.country_code;
-}
-
-export async function loadSkillpathData(signal: AbortSignal): Promise<LoadResult> {
-  const [coursesResult, countryResult] = await Promise.allSettled([
-    fetchCourseData(signal),
-    fetchCountryCode(signal),
-  ]);
-
-  const courses =
-    coursesResult.status === "fulfilled"
-      ? coursesResult.value
-      : null;
-  const countryCode =
-    countryResult.status === "fulfilled"
-      ? countryResult.value
-      : null;
-
-  return {
-    courses,
-    countryCode,
-    courseError:
-      coursesResult.status === "rejected"
-        ? errorMessage(coursesResult.reason)
-        : courses === null
-          ? "The course response was not in the expected format."
-          : null,
-    countryError:
-      countryResult.status === "rejected"
-        ? errorMessage(countryResult.reason)
-        : countryCode === null
-          ? "The country response was not in the expected format."
-          : null,
-  };
 }
 
 export function formatCoursePrice(course: Course, countryCode: CountryCode | null) {
