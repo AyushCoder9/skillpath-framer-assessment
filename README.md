@@ -3,7 +3,8 @@
 ### A live learning catalogue for WebVeda — resilient data, clear product states, and motion with purpose.
 
 <p align="center">
-  <a href="https://skillpath-framer-assessment.vercel.app/"><strong>Live preview</strong></a> ·
+  <a href="https://only-collection-516444.framer.app/"><strong>Published Framer page</strong></a> ·
+  <a href="https://skillpath-framer-assessment.vercel.app/"><strong>Vercel preview</strong></a> ·
   <a href="https://github.com/AyushCoder9/skillpath-framer-assessment"><strong>Source code</strong></a> ·
   <a href="https://www.framer.com/">Framer</a>
 </p>
@@ -17,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://skillpath-framer-assessment.vercel.app/"><img src="https://img.shields.io/badge/VIEW_LIVE_PREVIEW-2D62FF?style=for-the-badge&logo=vercel&logoColor=white" alt="View live preview" /></a>
+  <a href="https://only-collection-516444.framer.app/"><img src="https://img.shields.io/badge/OPEN_PUBLISHED_FRAMER_PAGE-2D62FF?style=for-the-badge&logo=framer&logoColor=white" alt="Open published Framer page" /></a>
 </p>
 
 ![Skillpath live catalogue preview](https://raw.githubusercontent.com/AyushCoder9/skillpath-framer-assessment/master/framer-editor.png)
@@ -151,6 +152,18 @@ Available Framer property controls:
 
 The component accepts a forwarded `style` prop, keeps its CSS variables scoped to `.skillpath-courses`, and avoids preview-only runtime APIs so the component surface remains portable.
 
+## Assessment handoff
+
+This repository includes the complete set of links and artifacts requested by the WebVeda assignment:
+
+1. **Published Framer page:** [only-collection-516444.framer.app](https://only-collection-516444.framer.app/)
+2. **Public code:** [github.com/AyushCoder9/skillpath-framer-assessment](https://github.com/AyushCoder9/skillpath-framer-assessment)
+3. **Short assessment note:** [`SUBMISSION_NOTE.md`](./SUBMISSION_NOTE.md) — kept under the requested 200-word limit.
+4. **AI disclosure:** the note records that AI helped draft the initial fetch/component structure and that the response validation, failure handling, currency logic, cancellation, accessibility, responsive behavior, and motion were reviewed and rewritten.
+5. **Vercel preview:** [skillpath-framer-assessment.vercel.app](https://skillpath-framer-assessment.vercel.app/) — a standalone preview of the same component and interaction model.
+
+The published Framer page is the primary handoff link. The Vercel URL is included as a development/standalone preview; it is not a replacement for the requested Framer publication.
+
 ## Verification checklist
 
 - [x] TypeScript checked as part of the production build.
@@ -168,7 +181,8 @@ The component accepts a forwarded `style` prop, keeps its CSS variables scoped t
 
 | Resource | URL |
 | --- | --- |
-| **Live preview** | [skillpath-framer-assessment.vercel.app](https://skillpath-framer-assessment.vercel.app/) |
+| **Published Framer page** | [only-collection-516444.framer.app](https://only-collection-516444.framer.app/) |
+| **Vercel standalone preview** | [skillpath-framer-assessment.vercel.app](https://skillpath-framer-assessment.vercel.app/) |
 | **GitHub repository** | [github.com/AyushCoder9/skillpath-framer-assessment](https://github.com/AyushCoder9/skillpath-framer-assessment) |
 | **Portfolio** | [ayushkumarsingh-six.vercel.app](https://ayushkumarsingh-six.vercel.app/) |
 | **LinkedIn** | [Ayush Kumar Singh](https://www.linkedin.com/in/ayush-kumar-singh-910379320/) |

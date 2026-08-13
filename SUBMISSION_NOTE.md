@@ -1,5 +1,8 @@
 # Submission note (under 200 words)
 
+Published Framer page: https://only-collection-516444.framer.app/
+Code: https://github.com/AyushCoder9/skillpath-framer-assessment
+
 Skillpath treats the course catalogue as a live product surface rather than a static card grid. The two endpoints are fetched independently: if course data succeeds while regional pricing fails, the catalogue stays usable and each card says “Price unavailable” instead of guessing a currency. Prices are converted at the display boundary from paise or USD cents, and the active region is shown beside the value.
 
 With two more days, I would add a small request-observability panel for development-only builds and test a larger matrix of slow responses, malformed payloads, empty arrays, repeated retries, and intermediate viewport widths. I would consider cached regional pricing only after confirming whether stale prices are acceptable; I would not silently persist them by default.
