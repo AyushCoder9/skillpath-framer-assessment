@@ -1,16 +1,16 @@
-:root {
+.preview-page, .skillpath-courses {
   font-family: "Inter Tight", "Avenir Next", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #10141c;
-  background: #f7f9fc;
   font-synthesis: none;
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; }
-a { color: inherit; text-decoration: none; }
-button, input, select { font: inherit; }
-button, a, input, select { -webkit-tap-highlight-color: transparent; }
+.preview-page *, .preview-page *::before, .preview-page *::after,
+.skillpath-courses *, .skillpath-courses *::before, .skillpath-courses *::after { box-sizing: border-box; }
+.preview-page a, .skillpath-courses a { color: inherit; text-decoration: none; }
+.preview-page button, .preview-page input, .preview-page select,
+.skillpath-courses button, .skillpath-courses input, .skillpath-courses select { font: inherit; }
+.preview-page button, .preview-page a, .preview-page input, .preview-page select,
+.skillpath-courses button, .skillpath-courses a, .skillpath-courses input, .skillpath-courses select { -webkit-tap-highlight-color: transparent; }
 
 .preview-page {
   --ink: #10141c;
@@ -97,7 +97,16 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 .preview-footer-links a:hover, .preview-footer-links a:focus-visible { color: var(--ink); }
 .preview-footer small { justify-self: end; color: #9aa3ae; font-size: 11px; }
 
-.skillpath-courses { --skillpath-accent: #2d62ff; color: #10141c; }
+.skillpath-courses {
+  --ink: #10141c;
+  --muted: #6f7886;
+  --line: #dfe5ee;
+  --blue: #2d62ff;
+  --mint: #26c990;
+  --skillpath-accent: #2d62ff;
+  width: 100%;
+  color: var(--ink);
+}
 .skillpath-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
 .skillpath-heading-line { display: flex; align-items: center; gap: 13px; }
 .skillpath-eyebrow { margin: 0; color: var(--skillpath-accent); font-size: 11px; font-weight: 850; letter-spacing: .16em; }
@@ -216,6 +225,6 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
   .preview-orbit-sidebar span { padding: 7px 5px; font-size: 9px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .preview-page *, .preview-page *::before, .preview-page *::after,
+  .skillpath-courses *, .skillpath-courses *::before, .skillpath-courses *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }

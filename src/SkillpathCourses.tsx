@@ -23,6 +23,7 @@ export type Course = {
 type Props = {
   accentColor?: string;
   showRefundableBadge?: boolean;
+  style?: React.CSSProperties;
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -257,9 +258,14 @@ function CourseCard({
   );
 }
 
+/**
+ * @framerSupportedLayoutWidth any
+ * @framerSupportedLayoutHeight auto
+ */
 export function SkillpathCourses({
   accentColor = "#2D62FF",
   showRefundableBadge = true,
+  style,
 }: Props) {
   const [courses, setCourses] = React.useState<Course[] | null>(null);
   const [countryCode, setCountryCode] = React.useState<CountryCode | null>(null);
@@ -342,7 +348,7 @@ export function SkillpathCourses({
     <MotionConfig reducedMotion="user">
       <motion.section
         className="skillpath-courses"
-        style={{ "--skillpath-accent": accentColor } as React.CSSProperties}
+        style={{ ...style, "--skillpath-accent": accentColor } as React.CSSProperties}
         aria-labelledby="skillpath-courses-heading"
         aria-busy={isLoading}
       >

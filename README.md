@@ -40,6 +40,7 @@ There is no GSAP, Lottie, Three.js, external component library, custom animation
 - Responsive 3/2/1 course grid for desktop/tablet/mobile.
 - Framer Motion card reveal, layout transitions, hover lift, press feedback, live status, price transitions, orbit animation, and reduced-motion support.
 - Accessible labels, `status`/`alert` roles, focus rings, `AbortController` cancellation, and GET-only requests.
+- Framer layout annotations (`any` width, `auto` height), a forwarded `style` prop, and component-scoped CSS variables so the component remains portable outside the standalone preview.
 
 ## Local preview
 
@@ -48,11 +49,11 @@ npm install
 npm run dev
 ```
 
-The Vite preview aliases Framer's editor-only runtime to `src/framer-stub.ts`. The real `framer` runtime supplies the property-control panel inside Framer; `framer-motion` supplies the animation primitives in both the standalone preview and the code component.
+The Vite preview aliases Framer's editor-only runtime to `src/framer-stub.ts`. The real `framer` runtime supplies the property-control panel inside Framer; `framer-motion` supplies the animation primitives in both the standalone preview and the code component. `src/skillpath.css` is intentionally scoped to `.skillpath-courses` for the component surface; the preview-only shell uses `.preview-page`.
 
 ## Component entry point
 
-`src/SkillpathCourses.tsx` — paste this into Framer as the code component. It imports the adjacent `src/skillpath.css` file so the component remains styled when moved into Framer.
+`src/SkillpathCourses.tsx` — paste this into Framer as the code component and keep `src/skillpath.css` as the adjacent stylesheet. The component includes Framer layout annotations and uses no Vite-only runtime APIs.
 
 ## Submission honesty
 
