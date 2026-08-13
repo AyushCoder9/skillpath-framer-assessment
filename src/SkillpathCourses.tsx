@@ -98,19 +98,31 @@ function isCountryResponse(value: unknown): value is { country_code: CountryCode
   );
 }
 
+async function fetchCourseData(signal: AbortSignal): Promise<Course[]> {
+  const value = await getJson<unknown>(`${API_BASE_URL}/assignment/course-data`, signal);
+  if (!isCourseArray(value)) throw new Error("The course response was not in the expected format.");
+  return value;
+}
+
+async function fetchCountryCode(signal: AbortSignal): Promise<CountryCode> {
+  const value = await getJson<unknown>(`${API_BASE_URL}/assignment/country-code`, signal);
+  if (!isCountryResponse(value)) throw new Error("The country response was not in the expected format.");
+  return value.country_code;
+}
+
 export async function loadSkillpathData(signal: AbortSignal): Promise<LoadResult> {
   const [coursesResult, countryResult] = await Promise.allSettled([
-    getJson<unknown>(`${API_BASE_URL}/assignment/course-data`, signal),
-    getJson<unknown>(`${API_BASE_URL}/assignment/country-code`, signal),
+    fetchCourseData(signal),
+    fetchCountryCode(signal),
   ]);
 
   const courses =
-    coursesResult.status === "fulfilled" && isCourseArray(coursesResult.value)
+    coursesResult.status === "fulfilled"
       ? coursesResult.value
       : null;
   const countryCode =
-    countryResult.status === "fulfilled" && isCountryResponse(countryResult.value)
-      ? countryResult.value.country_code
+    countryResult.status === "fulfilled"
+      ? countryResult.value
       : null;
 
   return {
@@ -136,7 +148,8 @@ export function formatCoursePrice(course: Course, countryCode: CountryCode | nul
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR",
-      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(course.pricePaise / 100);
   }
 
@@ -158,6 +171,14 @@ function priceValue(course: Course, countryCode: CountryCode | null) {
 
 function SignalDot({ tone = "blue" }: { tone?: "blue" | "mint" | "amber" }) {
   return <span aria-hidden="true" className={`skillpath-signal-dot skillpath-signal-dot-${tone}`} />;
+}
+
+function getCourseVisualSeed(courseCode: string) {
+  const hash = [...courseCode].reduce((total, character) => (total * 31 + character.charCodeAt(0)) >>> 0, 7);
+  return {
+    gradient: (hash % 4) + 1,
+    index: String((hash % 97) + 1).padStart(2, "0"),
+  };
 }
 
 function SkeletonCard({ index }: { index: number }) {
@@ -228,7 +249,8 @@ function CourseCard({
   reducedMotion: boolean | null;
 }) {
   const displayPrice = formatCoursePrice(course, countryCode);
-  const gradientClass = `skillpath-card-art-${(index % 4) + 1}`;
+  const visualSeed = getCourseVisualSeed(course.courseCode);
+  const gradientClass = `skillpath-card-art-${visualSeed.gradient}`;
 
   return (
     <motion.article
@@ -243,7 +265,7 @@ function CourseCard({
         <span className="skillpath-art-line skillpath-art-line-one" />
         <span className="skillpath-art-line skillpath-art-line-two" />
         <span className="skillpath-art-orb" />
-        <span className="skillpath-art-index">{String(index + 1).padStart(2, "0")}</span>
+        <span className="skillpath-art-index">{visualSeed.index}</span>
       </div>
       <div className="skillpath-card-content">
         <div className="skillpath-card-topline">
@@ -285,23 +307,30 @@ export function SkillpathCourses({
   const [sort, setSort] = React.useState<"featured" | "price-low" | "price-high">("featured");
   const [isLoading, setIsLoading] = React.useState(true);
   const [retryCount, setRetryCount] = React.useState(0);
+  const [countryRetryCount, setCountryRetryCount] = React.useState(0);
+  const [isCountryLoading, setIsCountryLoading] = React.useState(true);
   const reducedMotion = useReducedMotion();
 
-  const retry = React.useCallback(() => setRetryCount((count) => count + 1), []);
+  const retry = React.useCallback(() => {
+    setCountryCode(null);
+    setRetryCount((count) => count + 1);
+    setCountryRetryCount((count) => count + 1);
+  }, []);
+
+  const retryCountry = React.useCallback(() => {
+    setCountryCode(null);
+    setCountryRetryCount((count) => count + 1);
+  }, []);
 
   React.useEffect(() => {
     const controller = new AbortController();
     setIsLoading(true);
     setCourseError(null);
-    setCountryError(null);
 
-    loadSkillpathData(controller.signal)
-      .then((result) => {
+    fetchCourseData(controller.signal)
+      .then((nextCourses) => {
         if (controller.signal.aborted) return;
-        setCourses(result.courses);
-        setCountryCode(result.countryCode);
-        setCourseError(result.courseError);
-        setCountryError(result.countryError);
+        setCourses(nextCourses);
       })
       .catch((error) => {
         if (!controller.signal.aborted) setCourseError(errorMessage(error));
@@ -311,6 +340,25 @@ export function SkillpathCourses({
       });
     return () => controller.abort();
   }, [retryCount]);
+
+  React.useEffect(() => {
+    const controller = new AbortController();
+    setIsCountryLoading(true);
+    setCountryError(null);
+
+    fetchCountryCode(controller.signal)
+      .then((nextCountryCode) => {
+        if (!controller.signal.aborted) setCountryCode(nextCountryCode);
+      })
+      .catch((error) => {
+        if (!controller.signal.aborted) setCountryError(errorMessage(error));
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsCountryLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [retryCount, countryRetryCount]);
 
   const visibleCourses = React.useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -324,7 +372,9 @@ export function SkillpathCourses({
   }, [courses, countryCode, query, sort]);
 
   const loadedCourseCount = courses?.length ?? 0;
-  const regionLabel = countryCode === "IN" ? "India pricing" : countryCode === "US" ? "US pricing" : "Price paused";
+  const catalogueCount = isLoading || courseError ? "—" : String(loadedCourseCount);
+  const catalogueLabel = isLoading ? "loading courses" : courseError ? "catalogue unavailable" : loadedCourseCount === 1 ? "course loaded" : "courses loaded";
+  const regionLabel = courseError ? "Awaiting catalogue" : countryCode === "IN" ? "India pricing" : countryCode === "US" ? "US pricing" : isCountryLoading ? "Pricing syncing" : "Price paused";
 
   return (
     <MotionConfig reducedMotion="user">
@@ -335,7 +385,11 @@ export function SkillpathCourses({
         aria-busy={isLoading}
       >
         <div className="skillpath-section-heading">
-          <motion.div variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
+          <motion.div
+            initial={reducedMotion ? undefined : { opacity: 0, y: 16 }}
+            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.08, ease }}
+          >
             <div className="skillpath-heading-line">
               <p className="skillpath-eyebrow">LIVE CATALOGUE</p>
               <span className="skillpath-heading-status"><SignalDot tone={courseError ? "amber" : "mint"} />{courseError ? "reconnecting" : isLoading ? "syncing" : "online"}</span>
@@ -343,9 +397,15 @@ export function SkillpathCourses({
             <h2 id="skillpath-courses-heading">Find the next useful thing.</h2>
             <p className="skillpath-section-description">A live catalogue that stays legible when the network doesn&apos;t.</p>
           </motion.div>
-          <motion.div className="skillpath-catalogue-meta" variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} aria-live="polite">
-            <strong>{isLoading ? "—" : loadedCourseCount}</strong>
-            <span>{isLoading ? "loading courses" : loadedCourseCount === 1 ? "course loaded" : "courses loaded"}</span>
+          <motion.div
+            className="skillpath-catalogue-meta"
+            initial={reducedMotion ? undefined : { opacity: 0, y: 16 }}
+            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.16, ease }}
+            aria-live="polite"
+          >
+            <strong>{catalogueCount}</strong>
+            <span>{catalogueLabel}</span>
             <small>{regionLabel}</small>
           </motion.div>
         </div>
@@ -354,7 +414,7 @@ export function SkillpathCourses({
           {countryError && !courseError && !isLoading && (
             <motion.div className="skillpath-notice" role="status" initial={{ opacity: 0, height: 0, y: -8 }} animate={{ opacity: 1, height: "auto", y: 0 }} exit={{ opacity: 0, height: 0, y: -8 }} transition={{ duration: reducedMotion ? 0 : 0.32, ease }}>
               <span><SignalDot tone="amber" />Course data is live, but regional pricing is temporarily unavailable.</span>
-              <button onClick={retry}>Retry pricing</button>
+              <button onClick={retryCountry}>Retry pricing</button>
             </motion.div>
           )}
         </AnimatePresence>

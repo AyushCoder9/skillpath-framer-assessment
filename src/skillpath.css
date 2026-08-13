@@ -54,6 +54,7 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 .preview-signal-wave::before { position: absolute; inset: 13px 0 auto; height: 1px; background: repeating-linear-gradient(90deg, transparent 0 7px, rgba(38,201,144,.55) 7px 10px); content: ""; }
 .preview-signal-wave::after { position: absolute; top: 0; left: -10%; width: 120%; height: 100%; background: linear-gradient(90deg, transparent 0 8%, rgba(38,201,144,.9) 8% 9%, transparent 9% 23%, rgba(38,201,144,.9) 23% 24%, transparent 24% 53%, rgba(38,201,144,.9) 53% 54%, transparent 54% 80%, rgba(38,201,144,.9) 80% 81%, transparent 81%); clip-path: polygon(0 52%, 11% 52%, 14% 48%, 17% 54%, 27% 52%, 31% 51%, 34% 52%, 38% 46%, 40% 54%, 47% 52%, 50% 52%, 54% 12%, 57% 84%, 59% 50%, 68% 52%, 73% 48%, 78% 53%, 88% 52%, 93% 51%, 100% 52%); opacity: .9; }
 
+.preview-orbit-stage { position: absolute; z-index: 1; inset: 0; overflow: visible; perspective: 1200px; }
 .preview-orbit { position: absolute; pointer-events: none; border: 1px solid rgba(45,98,255,.22); border-radius: 50%; }
 .preview-orbit-one { top: -108px; right: -30px; width: 700px; height: 520px; transform: rotate(-10deg); }
 .preview-orbit-two { top: -48px; right: 100px; width: 590px; height: 420px; transform: rotate(26deg); border-color: rgba(45,98,255,.13); }
@@ -61,7 +62,7 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 .preview-orbit-dot { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 8px rgba(45,98,255,.09), 0 0 28px rgba(45,98,255,.45); }
 .preview-orbit-dot-one { top: 72px; right: 135px; }
 .preview-orbit-dot-two { right: 64px; bottom: 95px; width: 7px; height: 7px; background: var(--mint); box-shadow: 0 0 0 7px rgba(38,201,144,.1), 0 0 25px rgba(38,201,144,.4); }
-.preview-hero-orbit-card { position: absolute; z-index: 1; top: 58px; right: 28px; width: min(495px, 47vw); padding: 18px; border: 1px solid rgba(214,223,236,.88); border-radius: 26px; background: rgba(255,255,255,.72); box-shadow: 0 30px 80px rgba(35,57,95,.1), inset 0 1px rgba(255,255,255,.95); transform: rotate(4deg); backdrop-filter: blur(14px); }
+.preview-hero-orbit-card { position: absolute; z-index: 1; top: 58px; right: 28px; width: min(495px, 47vw); padding: 18px; border: 1px solid rgba(214,223,236,.88); border-radius: 26px; background: rgba(255,255,255,.72); box-shadow: 0 30px 80px rgba(35,57,95,.1), inset 0 1px rgba(255,255,255,.95); transform: rotate(4deg); transform-style: preserve-3d; backdrop-filter: blur(14px); }
 .preview-orbit-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 2px 2px 16px; border-bottom: 1px solid #e6ebf2; color: #7b8794; font-size: 10px; letter-spacing: .13em; text-transform: uppercase; }
 .preview-orbit-card-top strong { color: var(--ink); font-size: 13px; letter-spacing: -.02em; text-transform: none; }
 .preview-orbit-card-status { display: inline-flex; align-items: center; gap: 7px; color: #327b6c; letter-spacing: .08em; }

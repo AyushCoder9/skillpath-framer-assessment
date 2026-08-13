@@ -31,6 +31,7 @@ There is no GSAP, Lottie, Three.js, external component library, custom animation
 - Live `GET` requests to `/assignment/course-data` and `/assignment/country-code`.
 - Strict response-shape validation for courses and country codes.
 - Independent course/country failure handling.
+- A full retry re-fetches the catalogue and region; the partial-failure "Retry pricing" action re-fetches only the country endpoint.
 - Correct paise → rupee and USD cents → dollar conversion.
 - Regional price status on each card; no guessed currency when the country call fails.
 - Loading skeletons with motion, retryable API error state, zero-result state, and no-match state.
