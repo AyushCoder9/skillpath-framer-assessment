@@ -1,4 +1,5 @@
 import * as React from "react";
+import { AnimatePresence, MotionConfig, motion, useReducedMotion } from "framer-motion";
 import { addPropertyControls, ControlType } from "framer";
 import "./skillpath.css";
 
@@ -31,6 +32,21 @@ type LoadResult = {
   countryError: string | null;
 };
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { delayChildren: 0.06, staggerChildren: 0.055 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease } },
+};
+
 const errorMessage = (error: unknown) => {
   if (error instanceof DOMException && error.name === "AbortError") {
     return "Request cancelled";
@@ -61,9 +77,14 @@ function isCourseArray(value: unknown): value is Course[] {
         course &&
         typeof course === "object" &&
         typeof (course as Course).courseName === "string" &&
+        typeof (course as Course).courseCode === "string" &&
         typeof (course as Course).description === "string" &&
+        typeof (course as Course).mainCategory === "string" &&
+        typeof (course as Course).shortCourse === "string" &&
+        typeof (course as Course).courseType === "string" &&
         typeof (course as Course).pricePaise === "number" &&
-        typeof (course as Course).priceUsdCents === "number",
+        typeof (course as Course).priceUsdCents === "number" &&
+        typeof (course as Course).refundable === "boolean",
     )
   );
 }
@@ -131,45 +152,129 @@ export function formatCoursePrice(course: Course, countryCode: CountryCode | nul
   return "Price unavailable";
 }
 
-function SkeletonCard() {
+function priceValue(course: Course, countryCode: CountryCode | null) {
+  return countryCode === "US" ? course.priceUsdCents : course.pricePaise;
+}
+
+function SignalDot({ tone = "blue" }: { tone?: "blue" | "mint" | "amber" }) {
+  return <span aria-hidden="true" className={`skillpath-signal-dot skillpath-signal-dot-${tone}`} />;
+}
+
+function SkeletonCard({ index }: { index: number }) {
   return (
-    <div className="skillpath-card skillpath-skeleton" aria-hidden="true">
-      <div className="skillpath-skeleton-line skillpath-skeleton-short" />
+    <motion.div
+      className="skillpath-card skillpath-card-skeleton"
+      aria-hidden="true"
+      initial={{ opacity: 0.4, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.06, duration: 0.45, ease }}
+    >
+      <div className="skillpath-skeleton-bar skillpath-skeleton-bar-small" />
+      <div className="skillpath-skeleton-block" />
+      <div className="skillpath-skeleton-line skillpath-skeleton-line-wide" />
       <div className="skillpath-skeleton-line" />
-      <div className="skillpath-skeleton-line skillpath-skeleton-wide" />
-      <div className="skillpath-skeleton-price" />
-    </div>
+      <div className="skillpath-skeleton-footer" />
+    </motion.div>
   );
 }
 
 function EmptyState({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="skillpath-state" role="status">
-      <div className="skillpath-state-icon">⌁</div>
+    <motion.div
+      className="skillpath-state"
+      role="status"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease }}
+    >
+      <div className="skillpath-state-mark" aria-hidden="true"><span /><span /><span /></div>
+      <p className="skillpath-state-kicker">EMPTY CATALOGUE</p>
       <h3>No courses found</h3>
       <p>There are no courses to show right now. Try loading the catalogue again.</p>
-      <button className="skillpath-button skillpath-button-secondary" onClick={onRetry}>
-        Try again
-      </button>
-    </div>
+      <button className="skillpath-button skillpath-button-secondary" onClick={onRetry}>Try again <span aria-hidden="true">↗</span></button>
+    </motion.div>
   );
 }
 
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="skillpath-state" role="alert">
-      <div className="skillpath-state-icon skillpath-error-icon">!</div>
+    <motion.div
+      className="skillpath-state skillpath-state-error"
+      role="alert"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease }}
+    >
+      <div className="skillpath-state-mark skillpath-state-mark-error" aria-hidden="true">!</div>
+      <p className="skillpath-state-kicker">CATALOGUE OFFLINE</p>
       <h3>We couldn&apos;t load the courses</h3>
-      <p>{message} The catalogue is intentionally resilient to temporary API failures.</p>
-      <button className="skillpath-button skillpath-button-secondary" onClick={onRetry}>
-        Retry
-      </button>
-    </div>
+      <p>{message} The page is still intact; retry when the catalogue service is reachable.</p>
+      <button className="skillpath-button skillpath-button-secondary" onClick={onRetry}>Retry request <span aria-hidden="true">↗</span></button>
+    </motion.div>
+  );
+}
+
+function CourseCard({
+  course,
+  index,
+  countryCode,
+  showRefundableBadge,
+  reducedMotion,
+}: {
+  course: Course;
+  index: number;
+  countryCode: CountryCode | null;
+  showRefundableBadge: boolean;
+  reducedMotion: boolean | null;
+}) {
+  const displayPrice = formatCoursePrice(course, countryCode);
+  const gradientClass = `skillpath-card-art-${(index % 4) + 1}`;
+
+  return (
+    <motion.article
+      layout
+      className="skillpath-card skillpath-course-card"
+      variants={itemVariants}
+      whileHover={reducedMotion ? undefined : { y: -7, rotateX: 1.5, rotateY: -1.5 }}
+      whileTap={reducedMotion ? undefined : { scale: 0.985 }}
+      transition={{ layout: { duration: 0.42, ease } }}
+    >
+      <div className={`skillpath-card-art ${gradientClass}`} aria-hidden="true">
+        <span className="skillpath-art-line skillpath-art-line-one" />
+        <span className="skillpath-art-line skillpath-art-line-two" />
+        <span className="skillpath-art-orb" />
+        <span className="skillpath-art-index">{String(index + 1).padStart(2, "0")}</span>
+      </div>
+      <div className="skillpath-card-content">
+        <div className="skillpath-card-topline">
+          <span className="skillpath-category">{course.mainCategory}</span>
+          {showRefundableBadge && course.refundable && <span className="skillpath-badge"><SignalDot tone="mint" /> Refundable</span>}
+        </div>
+        <h3>{course.courseName}</h3>
+        <p>{course.description}</p>
+        <div className="skillpath-card-footer">
+          <div>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={`${countryCode ?? "unknown"}-${displayPrice}`}
+                className="skillpath-price"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: reducedMotion ? 0 : 0.22, ease }}
+              >{displayPrice}</motion.span>
+            </AnimatePresence>
+            <span className="skillpath-price-caption">{countryCode ? `Regional price · ${countryCode}` : "Awaiting regional price"}</span>
+          </div>
+          <span className="skillpath-course-type">{course.shortCourse || course.courseType}</span>
+        </div>
+      </div>
+    </motion.article>
   );
 }
 
 export function SkillpathCourses({
-  accentColor = "#6D5EF5",
+  accentColor = "#2D62FF",
   showRefundableBadge = true,
 }: Props) {
   const [courses, setCourses] = React.useState<Course[] | null>(null);
@@ -180,6 +285,7 @@ export function SkillpathCourses({
   const [sort, setSort] = React.useState<"featured" | "price-low" | "price-high">("featured");
   const [isLoading, setIsLoading] = React.useState(true);
   const [retryCount, setRetryCount] = React.useState(0);
+  const reducedMotion = useReducedMotion();
 
   const retry = React.useCallback(() => setRetryCount((count) => count + 1), []);
 
@@ -203,127 +309,108 @@ export function SkillpathCourses({
       .finally(() => {
         if (!controller.signal.aborted) setIsLoading(false);
       });
-
     return () => controller.abort();
   }, [retryCount]);
 
   const visibleCourses = React.useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
     const filtered = (courses ?? []).filter((course) => {
-      const haystack = `${course.courseName} ${course.description} ${course.mainCategory} ${course.shortCourse}`.toLowerCase();
-      return haystack.includes(query.trim().toLowerCase());
+      const haystack = `${course.courseName} ${course.description} ${course.mainCategory} ${course.shortCourse} ${course.courseType}`.toLowerCase();
+      return haystack.includes(normalizedQuery);
     });
-
-    if (sort === "price-low") {
-      return [...filtered].sort((a, b) => a.pricePaise - b.pricePaise);
-    }
-    if (sort === "price-high") {
-      return [...filtered].sort((a, b) => b.pricePaise - a.pricePaise);
-    }
+    if (sort === "price-low") return [...filtered].sort((a, b) => priceValue(a, countryCode) - priceValue(b, countryCode));
+    if (sort === "price-high") return [...filtered].sort((a, b) => priceValue(b, countryCode) - priceValue(a, countryCode));
     return filtered;
-  }, [courses, query, sort]);
+  }, [courses, countryCode, query, sort]);
+
+  const loadedCourseCount = courses?.length ?? 0;
+  const regionLabel = countryCode === "IN" ? "India pricing" : countryCode === "US" ? "US pricing" : "Price paused";
 
   return (
-    <section
-      className="skillpath-courses"
-      style={{ "--skillpath-accent": accentColor } as React.CSSProperties}
-      aria-labelledby="skillpath-courses-heading"
-      aria-busy={isLoading}
-    >
-      <div className="skillpath-section-heading">
-        <div>
-          <p className="skillpath-eyebrow">LEARN WITH INTENT</p>
-          <h2 id="skillpath-courses-heading">Courses built for momentum.</h2>
-          <p className="skillpath-section-description">
-            Practical systems, taught by people who have done the work.
-          </p>
+    <MotionConfig reducedMotion="user">
+      <motion.section
+        className="skillpath-courses"
+        style={{ "--skillpath-accent": accentColor } as React.CSSProperties}
+        aria-labelledby="skillpath-courses-heading"
+        aria-busy={isLoading}
+      >
+        <div className="skillpath-section-heading">
+          <motion.div variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
+            <div className="skillpath-heading-line">
+              <p className="skillpath-eyebrow">LIVE CATALOGUE</p>
+              <span className="skillpath-heading-status"><SignalDot tone={courseError ? "amber" : "mint"} />{courseError ? "reconnecting" : isLoading ? "syncing" : "online"}</span>
+            </div>
+            <h2 id="skillpath-courses-heading">Find the next useful thing.</h2>
+            <p className="skillpath-section-description">A live catalogue that stays legible when the network doesn&apos;t.</p>
+          </motion.div>
+          <motion.div className="skillpath-catalogue-meta" variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} aria-live="polite">
+            <strong>{isLoading ? "—" : loadedCourseCount}</strong>
+            <span>{isLoading ? "loading courses" : loadedCourseCount === 1 ? "course loaded" : "courses loaded"}</span>
+            <small>{regionLabel}</small>
+          </motion.div>
         </div>
-        {!isLoading && courses && !courseError && (
-          <span className="skillpath-count">{visibleCourses.length} courses</span>
-        )}
-      </div>
 
-      {countryError && !courseError && (
-        <div className="skillpath-notice" role="status">
-          <span>Course data is live, but regional pricing is temporarily unavailable.</span>
-          <button onClick={retry}>Retry pricing</button>
-        </div>
-      )}
+        <AnimatePresence initial={false}>
+          {countryError && !courseError && !isLoading && (
+            <motion.div className="skillpath-notice" role="status" initial={{ opacity: 0, height: 0, y: -8 }} animate={{ opacity: 1, height: "auto", y: 0 }} exit={{ opacity: 0, height: 0, y: -8 }} transition={{ duration: reducedMotion ? 0 : 0.32, ease }}>
+              <span><SignalDot tone="amber" />Course data is live, but regional pricing is temporarily unavailable.</span>
+              <button onClick={retry}>Retry pricing</button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      {!isLoading && courseError ? (
-        <ErrorState message={courseError} onRetry={retry} />
-      ) : isLoading ? (
-        <div className="skillpath-grid" aria-label="Loading courses">
-          {Array.from({ length: 6 }, (_, index) => <SkeletonCard key={index} />)}
-        </div>
-      ) : courses && courses.length === 0 ? (
-        <EmptyState onRetry={retry} />
-      ) : visibleCourses.length === 0 ? (
-        <div className="skillpath-state" role="status">
-          <div className="skillpath-state-icon">⌕</div>
-          <h3>No matching courses</h3>
-          <p>Try a different search term or clear the filter.</p>
-          <button className="skillpath-button skillpath-button-secondary" onClick={() => setQuery("")}>
-            Clear search
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="skillpath-toolbar">
-            <label className="skillpath-search">
-              <span className="skillpath-search-icon">⌕</span>
-              <span className="skillpath-visually-hidden">Search courses</span>
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search courses"
-                type="search"
-              />
-            </label>
-            <label className="skillpath-sort">
-              <span className="skillpath-visually-hidden">Sort courses</span>
-              <select value={sort} onChange={(event) => setSort(event.target.value as typeof sort)}>
-                <option value="featured">Featured</option>
-                <option value="price-low">Price: low to high</option>
-                <option value="price-high">Price: high to low</option>
-              </select>
-            </label>
-          </div>
-
-          <div className="skillpath-grid">
-            {visibleCourses.map((course) => (
-              <article className="skillpath-card" key={course.courseCode}>
-                <div className="skillpath-card-topline">
-                  <span className="skillpath-category">{course.mainCategory}</span>
-                  {showRefundableBadge && course.refundable && (
-                    <span className="skillpath-badge">Refundable</span>
-                  )}
-                </div>
-                <h3>{course.courseName}</h3>
-                <p>{course.description}</p>
-                <div className="skillpath-card-footer">
-                  <span className="skillpath-price">{formatCoursePrice(course, countryCode)}</span>
-                  <span className="skillpath-course-type">{course.courseType}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </>
-      )}
-    </section>
+        <AnimatePresence mode="wait" initial={false}>
+          {!isLoading && courseError ? (
+            <ErrorState key="error" message={courseError} onRetry={retry} />
+          ) : isLoading ? (
+            <motion.div key="loading" className="skillpath-grid" aria-label="Loading courses" variants={containerVariants} initial="hidden" animate="visible">
+              {Array.from({ length: 6 }, (_, index) => <SkeletonCard key={index} index={index} />)}
+            </motion.div>
+          ) : courses && courses.length === 0 ? (
+            <EmptyState key="empty" onRetry={retry} />
+          ) : visibleCourses.length === 0 ? (
+            <motion.div key="no-match" className="skillpath-state" role="status" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease }}>
+              <div className="skillpath-state-mark" aria-hidden="true"><span /><span /><span /></div>
+              <p className="skillpath-state-kicker">NO MATCH</p>
+              <h3>Nothing matches that search</h3>
+              <p>Try a course name, category, or skill—or clear the filter.</p>
+              <button className="skillpath-button skillpath-button-secondary" onClick={() => setQuery("")}>Clear search</button>
+            </motion.div>
+          ) : (
+            <motion.div key="ready" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }}>
+              <div className="skillpath-toolbar">
+                <label className="skillpath-search">
+                  <span className="skillpath-search-icon" aria-hidden="true">⌕</span>
+                  <span className="skillpath-visually-hidden">Search courses</span>
+                  <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search courses, skills, or topics" type="search" />
+                  {query && <span className="skillpath-search-count">{visibleCourses.length}</span>}
+                </label>
+                <label className="skillpath-sort">
+                  <span className="skillpath-sort-label">Sort by</span>
+                  <span className="skillpath-visually-hidden">Sort courses</span>
+                  <select value={sort} onChange={(event) => setSort(event.target.value as typeof sort)}>
+                    <option value="featured">Featured</option>
+                    <option value="price-low">Price: low to high</option>
+                    <option value="price-high">Price: high to low</option>
+                  </select>
+                </label>
+              </div>
+              <motion.div className="skillpath-grid" variants={containerVariants} initial="hidden" animate="visible" layout>
+                {visibleCourses.map((course, index) => (
+                  <CourseCard key={course.courseCode} course={course} index={index} countryCode={countryCode} showRefundableBadge={showRefundableBadge} reducedMotion={reducedMotion} />
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.section>
+    </MotionConfig>
   );
 }
 
 addPropertyControls(SkillpathCourses, {
-  accentColor: {
-    type: ControlType.Color,
-    title: "Accent",
-    defaultValue: "#6D5EF5",
-  },
-  showRefundableBadge: {
-    type: ControlType.Boolean,
-    title: "Refundable badge",
-    defaultValue: true,
-  },
+  accentColor: { type: ControlType.Color, title: "Accent", defaultValue: "#2D62FF" },
+  showRefundableBadge: { type: ControlType.Boolean, title: "Refundable badge", defaultValue: true },
 });
 
 export default SkillpathCourses;
