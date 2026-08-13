@@ -4,6 +4,8 @@ import { addPropertyControls, ControlType } from "framer";
 import "./skillpath.css";
 
 const API_BASE_URL = "https://syncsphere-hiv6.onrender.com";
+const COURSE_DATA_URL = `${API_BASE_URL}/assignment/course-data`;
+const COUNTRY_CODE_URL = `${API_BASE_URL}/assignment/country-code`;
 
 type CountryCode = "IN" | "US";
 
@@ -60,7 +62,11 @@ async function getJson<T>(url: string, signal: AbortSignal): Promise<T> {
     throw new Error(`The service returned ${response.status}.`);
   }
 
-  return response.json() as Promise<T>;
+  try {
+    return await response.json() as T;
+  } catch {
+    throw new Error("The service returned invalid JSON.");
+  }
 }
 
 function isCourseArray(value: unknown): value is Course[] {
@@ -95,13 +101,13 @@ function isCountryResponse(value: unknown): value is { country_code: CountryCode
 }
 
 async function fetchCourseData(signal: AbortSignal): Promise<Course[]> {
-  const value = await getJson<unknown>(`${API_BASE_URL}/assignment/course-data`, signal);
+  const value = await getJson<unknown>(COURSE_DATA_URL, signal);
   if (!isCourseArray(value)) throw new Error("The course response was not in the expected format.");
   return value;
 }
 
 async function fetchCountryCode(signal: AbortSignal): Promise<CountryCode> {
-  const value = await getJson<unknown>(`${API_BASE_URL}/assignment/country-code`, signal);
+  const value = await getJson<unknown>(COUNTRY_CODE_URL, signal);
   if (!isCountryResponse(value)) throw new Error("The country response was not in the expected format.");
   return value.country_code;
 }
