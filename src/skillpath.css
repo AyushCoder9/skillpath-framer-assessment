@@ -1,0 +1,78 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #16162a;
+  background: #f8f7fb;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; }
+
+.preview-page { min-height: 100vh; overflow: hidden; background: #f8f7fb; }
+.preview-nav { display: flex; justify-content: space-between; align-items: center; max-width: 1180px; margin: auto; padding: 26px 28px; }
+.preview-nav strong, .preview-footer strong { font-size: 20px; letter-spacing: -.06em; }
+.preview-nav strong span, .preview-footer strong span { color: #6d5ef5; }
+.preview-nav div, .preview-footer div { display: flex; gap: 26px; align-items: center; color: #68687c; font-size: 13px; }
+.preview-nav-button { color: #fff; background: #16162a; padding: 11px 16px; border-radius: 999px; }
+.preview-hero { position: relative; max-width: 900px; margin: 0 auto; padding: 92px 28px 126px; text-align: center; }
+.preview-hero h1 { position: relative; margin: 16px auto 18px; max-width: 760px; font-size: clamp(46px, 8vw, 92px); line-height: .94; letter-spacing: -.085em; font-weight: 730; }
+.preview-hero > p:not(.skillpath-eyebrow) { position: relative; max-width: 510px; margin: auto; color: #717188; font-size: 17px; line-height: 1.55; }
+.preview-hero-button { position: relative; display: inline-flex; margin-top: 28px; }
+.preview-orbit { position: absolute; border: 1px solid rgba(109,94,245,.2); border-radius: 50%; pointer-events: none; }
+.preview-orbit-one { width: 680px; height: 680px; left: 50%; top: -160px; transform: translateX(-50%); }
+.preview-orbit-two { width: 430px; height: 430px; left: 50%; top: -36px; transform: translateX(-50%); border-color: rgba(109,94,245,.12); }
+.preview-courses-wrap { max-width: 1180px; margin: auto; padding: 0 28px 92px; }
+.preview-footer { max-width: 1180px; margin: auto; padding: 28px; border-top: 1px solid #e6e4ee; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; }
+.preview-footer small { justify-self: end; color: #9998a9; }
+
+.skillpath-courses { --skillpath-accent: #6d5ef5; color: #16162a; }
+.skillpath-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.skillpath-eyebrow { margin: 0; color: var(--skillpath-accent); font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+.skillpath-section-heading h2 { margin: 8px 0 6px; font-size: clamp(28px, 4vw, 48px); line-height: 1; letter-spacing: -.07em; }
+.skillpath-section-description { margin: 0; color: #858499; font-size: 15px; }
+.skillpath-count { color: #8c8b9c; font-size: 13px; white-space: nowrap; }
+.skillpath-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.skillpath-card { min-height: 232px; display: flex; flex-direction: column; padding: 22px; border: 1px solid #e5e3ee; border-radius: 20px; background: rgba(255,255,255,.72); box-shadow: 0 12px 32px rgba(34,31,67,.04); }
+.skillpath-card:hover { border-color: color-mix(in srgb, var(--skillpath-accent) 46%, #e5e3ee); transform: translateY(-2px); transition: transform .2s ease, border-color .2s ease; }
+.skillpath-card-topline, .skillpath-card-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.skillpath-category, .skillpath-course-type { color: var(--skillpath-accent); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.skillpath-course-type { color: #aaa9b7; letter-spacing: .04em; }
+.skillpath-card h3 { margin: 22px 0 9px; font-size: 23px; line-height: 1.02; letter-spacing: -.055em; }
+.skillpath-card p { display: -webkit-box; overflow: hidden; margin: 0; color: #77768b; font-size: 14px; line-height: 1.48; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.skillpath-card-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid #eeeef4; }
+.skillpath-price { font-size: 18px; font-weight: 750; letter-spacing: -.04em; }
+.skillpath-badge { color: #3d8462; background: #e8f5ee; padding: 5px 8px; border-radius: 999px; font-size: 10px; font-weight: 750; }
+.skillpath-toolbar { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
+.skillpath-search { display: flex; align-items: center; gap: 8px; min-width: 230px; padding: 0 12px; border: 1px solid #e5e3ee; border-radius: 999px; background: #fff; color: #a4a3b0; }
+.skillpath-search input { width: 100%; padding: 10px 0; border: 0; outline: 0; background: transparent; color: #16162a; font-size: 13px; }
+.skillpath-sort select { padding: 10px 13px; border: 1px solid #e5e3ee; border-radius: 999px; outline: 0; background: #fff; color: #767588; font-size: 13px; }
+.skillpath-button { display: inline-flex; align-items: center; gap: 10px; border: 0; border-radius: 999px; padding: 13px 18px; color: #fff; background: var(--skillpath-accent); cursor: pointer; font-weight: 700; font-size: 13px; }
+.skillpath-button-secondary { color: #16162a; background: #eeedf4; }
+.skillpath-state { grid-column: 1 / -1; padding: 64px 20px; border: 1px dashed #d9d7e4; border-radius: 20px; text-align: center; }
+.skillpath-state-icon { display: grid; place-items: center; width: 42px; height: 42px; margin: auto; border-radius: 50%; color: var(--skillpath-accent); background: #efedff; font-size: 22px; }
+.skillpath-error-icon { color: #b06c49; background: #fff0e9; }
+.skillpath-state h3 { margin: 16px 0 6px; font-size: 21px; letter-spacing: -.04em; }
+.skillpath-state p { max-width: 360px; margin: 0 auto 18px; color: #868598; font-size: 14px; line-height: 1.5; }
+.skillpath-notice { display: flex; justify-content: space-between; gap: 14px; margin-bottom: 15px; padding: 12px 14px; border: 1px solid #f0dcc5; border-radius: 12px; color: #8b674b; background: #fff9f2; font-size: 13px; }
+.skillpath-notice button { border: 0; color: #8b674b; background: transparent; cursor: pointer; font-weight: 750; white-space: nowrap; }
+.skillpath-skeleton { min-height: 232px; animation: pulse 1.3s ease-in-out infinite alternate; }
+.skillpath-skeleton-line, .skillpath-skeleton-price { height: 12px; margin-bottom: 12px; border-radius: 8px; background: #eceaf3; }
+.skillpath-skeleton-short { width: 30%; }
+.skillpath-skeleton-wide { width: 92%; }
+.skillpath-skeleton-price { width: 28%; margin-top: auto; margin-bottom: 0; height: 20px; }
+.skillpath-visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@keyframes pulse { from { opacity: .55; } to { opacity: 1; } }
+@media (max-width: 900px) { .skillpath-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) {
+  .preview-nav div a:not(.preview-nav-button) { display: none; }
+  .preview-hero { padding-top: 65px; padding-bottom: 90px; }
+  .skillpath-section-heading, .skillpath-toolbar, .skillpath-notice { align-items: stretch; flex-direction: column; }
+  .skillpath-grid { grid-template-columns: 1fr; }
+  .skillpath-search { width: 100%; }
+  .skillpath-sort select { width: 100%; }
+  .preview-footer { grid-template-columns: 1fr; }
+  .preview-footer small { justify-self: start; }
+}
