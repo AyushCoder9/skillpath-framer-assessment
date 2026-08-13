@@ -1,5 +1,6 @@
 import * as React from "react";
 import { addPropertyControls, ControlType } from "framer";
+import "./skillpath.css";
 
 const API_BASE_URL = "https://syncsphere-hiv6.onrender.com";
 

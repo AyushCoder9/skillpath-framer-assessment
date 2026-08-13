@@ -24,7 +24,7 @@ The Vite preview aliases the Framer runtime to a tiny local stub. In Framer, pas
 
 ## Component entry point
 
-`src/SkillpathCourses.tsx`
+`src/SkillpathCourses.tsx` (it imports the adjacent `src/skillpath.css` file so the component stays styled when moved into Framer)
 
 ## Assessment note
 
