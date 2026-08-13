@@ -360,8 +360,8 @@ export function SkillpathCourses({
               <p className="skillpath-eyebrow">LIVE CATALOGUE</p>
               <span className="skillpath-heading-status"><SignalDot tone={courseError ? "amber" : "mint"} />{courseError ? "reconnecting" : isLoading ? "syncing" : "online"}</span>
             </div>
-            <h2 id="skillpath-courses-heading">Find the next useful thing.</h2>
-            <p className="skillpath-section-description">A live catalogue that stays legible when the network doesn&apos;t.</p>
+            <h2 id="skillpath-courses-heading">Explore the catalogue</h2>
+            <p className="skillpath-section-description">Find the right course.<br />Right when you need it.</p>
           </motion.div>
           <motion.div
             className="skillpath-catalogue-meta"
