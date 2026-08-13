@@ -200,13 +200,11 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 
 function CourseCard({
   course,
-  index,
   countryCode,
   showRefundableBadge,
   reducedMotion,
 }: {
   course: Course;
-  index: number;
   countryCode: CountryCode | null;
   showRefundableBadge: boolean;
   reducedMotion: boolean | null;
@@ -424,8 +422,8 @@ export function SkillpathCourses({
                 </label>
               </div>
               <motion.div className="skillpath-grid" variants={containerVariants} initial="hidden" animate="visible" layout>
-                {visibleCourses.map((course, index) => (
-                  <CourseCard key={course.courseCode} course={course} index={index} countryCode={countryCode} showRefundableBadge={showRefundableBadge} reducedMotion={reducedMotion} />
+                {visibleCourses.map((course) => (
+                  <CourseCard key={course.courseCode} course={course} countryCode={countryCode} showRefundableBadge={showRefundableBadge} reducedMotion={reducedMotion} />
                 ))}
               </motion.div>
             </motion.div>
