@@ -98,7 +98,7 @@ Motion is deliberately constrained to Framer primitives:
 - `useScroll`, `useSpring`, and `useTransform` for the hero orbit/parallax layer.
 - `useMotionValueEvent` for the elevated floating navigation state and a spring-smoothed document progress rail.
 - Framer Motion drag constraints for the signal rail, with CSS-only ambient layers for grid signals, grain, and heatmap-inspired card art; every continuous layer has an explicit reduced-motion path.
-- Focus-card interaction: hovering one course preserves a clear focal point while the rest of the grid quiets down, inspired by premium marketplace carousel/gallery patterns without changing the data model.
+- Focus-card interaction: hovering one course gives it a crisp accent lift, depth, and arrow response while keeping every neighboring card readable and sharp.
 - `MotionConfig reducedMotion="user"` and `useReducedMotion` for accessibility.
 - CSS shimmer for loading skeletons; no external animation runtime.
 
