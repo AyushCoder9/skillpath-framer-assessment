@@ -46,7 +46,7 @@ Skillpath treats the catalogue as a live instrument rather than a static card gr
 ## Product surface
 
 - **Live catalogue hero** with an animated orbital index and a clear “system live” signal.
-- **Motion-led visual system** with a sticky pill navigation, scroll progress rail, line-by-line headline reveal, ambient grid/noise, heatmap-inspired course art, and a restrained live-signal marquee.
+- **Motion-led visual system** with a sticky pill navigation, scroll progress rail, line-by-line headline reveal, ambient grid/noise, heatmap-inspired course art, and a draggable live-signal rail.
 - **Course discovery** through search across course name, description, category, short-course label, and course type.
 - **Featured and price sorting** that respects the active regional currency.
 - **Responsive course grid** that adapts from desktop to tablet to mobile.
@@ -97,7 +97,8 @@ Motion is deliberately constrained to Framer primitives:
 - `AnimatePresence` for state changes and regional price transitions.
 - `useScroll`, `useSpring`, and `useTransform` for the hero orbit/parallax layer.
 - `useMotionValueEvent` for the elevated floating navigation state and a spring-smoothed document progress rail.
-- CSS-only ambient layers for grid signals, grain, heatmap-inspired card art, and the marquee; these remain lightweight and have an explicit reduced-motion path.
+- Framer Motion drag constraints for the signal rail, with CSS-only ambient layers for grid signals, grain, and heatmap-inspired card art; every continuous layer has an explicit reduced-motion path.
+- Focus-card interaction: hovering one course preserves a clear focal point while the rest of the grid quiets down, inspired by premium marketplace carousel/gallery patterns without changing the data model.
 - `MotionConfig reducedMotion="user"` and `useReducedMotion` for accessibility.
 - CSS shimmer for loading skeletons; no external animation runtime.
 

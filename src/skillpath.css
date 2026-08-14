@@ -79,7 +79,7 @@
 .preview-hero-line-accent { color: var(--blue) !important; }
 .preview-hero > .preview-hero-copy > p:not(.preview-hero-eyebrow) { max-width: 390px; margin: 25px 0 0; color: #5d697a; font-size: 15px; line-height: 1.62; }
 .preview-hero-actions { display: flex; align-items: center; gap: 29px; margin-top: 27px; }
-.preview-hero-button { display: inline-flex; align-items: center; gap: 22px; margin-top: 0; padding: 14px 20px 14px 22px; border-radius: 9px; background: var(--ink); box-shadow: 0 14px 28px rgba(16, 21, 33, .14); }
+.preview-hero-button { display: inline-flex; align-items: center; gap: 22px; margin-top: 0; padding: 14px 20px 14px 22px; border-radius: 11px; color: #fff !important; background: linear-gradient(135deg, #2d62ff 0%, #466bff 56%, #7467f6 100%); box-shadow: 0 16px 32px rgba(49, 94, 251, .22); }
 .preview-hero-button span { font-size: 17px; font-weight: 400; transition: transform .2s ease; }
 .preview-hero-button:hover span, .preview-hero-button:focus-visible span { transform: translate(2px, -2px); }
 .preview-hero-secondary { display: inline-flex; align-items: center; gap: 11px; color: #273346; font-size: 12px; font-weight: 600; }
@@ -165,10 +165,17 @@
 .preview-proof-index { color: var(--blue); font-family: "Manrope", sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
 .preview-proof-item strong { color: #273244; font-size: 12px; font-weight: 600; }
 .preview-proof-item span:not(.preview-proof-index) { font-size: 10px; line-height: 1.35; }
-.preview-proof-marquee { grid-column: 1 / -1; margin: 0 -66px; padding: 10px 66px 9px; border-top: 1px solid rgba(228, 233, 240, .72); border-bottom: 1px solid rgba(228, 233, 240, .72); overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
-.preview-proof-marquee-track { display: flex; align-items: center; gap: 36px; width: max-content; color: #8792a2; font-size: 9px; font-weight: 700; letter-spacing: .16em; }
-.preview-proof-marquee-track span { display: inline-flex; align-items: center; gap: 36px; white-space: nowrap; }
-.preview-proof-marquee-track i { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px rgba(24, 184, 138, .09); }
+.preview-proof-marquee { position: relative; grid-column: 1 / -1; margin: 0 -66px; padding: 12px 66px; border-top: 1px solid rgba(228, 233, 240, .72); border-bottom: 1px solid rgba(228, 233, 240, .72); overflow: hidden; background: linear-gradient(90deg, rgba(255, 255, 255, .18), rgba(237, 242, 255, .34) 50%, rgba(255, 255, 255, .18)); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.preview-proof-marquee::after { position: absolute; z-index: 1; top: 0; right: 0; bottom: 0; width: 170px; pointer-events: none; background: linear-gradient(90deg, transparent, rgba(247, 249, 253, .97) 82%); content: ""; }
+.preview-proof-marquee-track { position: relative; z-index: 0; display: flex; align-items: center; gap: 14px; width: max-content; padding-right: 118px; color: #52617a; font-size: 9px; font-weight: 700; letter-spacing: .08em; cursor: grab; touch-action: pan-y; user-select: none; }
+.preview-proof-marquee-track:active { cursor: grabbing; }
+.preview-proof-marquee-track span { display: inline-grid; grid-template-columns: auto auto auto; align-items: center; gap: 10px; min-width: 210px; padding: 9px 12px; border: 1px solid rgba(211, 220, 235, .86); border-radius: 999px; white-space: nowrap; background: rgba(255, 255, 255, .58); box-shadow: inset 0 1px rgba(255, 255, 255, .96), 0 6px 18px rgba(48, 70, 112, .035); transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease; }
+.preview-proof-marquee-track span:hover { border-color: rgba(49, 94, 251, .28); background: rgba(255, 255, 255, .84); box-shadow: inset 0 1px rgba(255, 255, 255, .98), 0 10px 24px rgba(48, 70, 112, .08); }
+.preview-proof-marquee-track b { color: #344565; font-size: 9px; font-weight: 700; letter-spacing: .11em; }
+.preview-proof-marquee-track em { color: #95a0af; font-size: 9px; font-style: normal; font-weight: 500; letter-spacing: .01em; }
+.preview-proof-marquee-track i { display: inline-block; justify-self: end; width: 5px; height: 5px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px rgba(24, 184, 138, .09); }
+.preview-proof-ticker-hint { position: absolute; z-index: 2; top: 50%; right: 66px; display: inline-flex; align-items: center; gap: 8px; padding: 7px 0 7px 25px; color: #7d8999; background: linear-gradient(90deg, transparent, rgba(247, 249, 253, .97) 22%); font-size: 8px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; transform: translateY(-50%); white-space: nowrap; }
+.preview-proof-ticker-hint b { color: var(--blue); font-size: 14px; font-weight: 500; letter-spacing: 0; }
 
 .preview-courses-wrap { position: relative; max-width: 1520px; margin: auto; padding: 58px 66px 118px; border-top: 1px solid rgba(223, 229, 238, .86); border-radius: 18px 18px 0 0; background: linear-gradient(180deg, rgba(255, 255, 255, .58), rgba(255, 255, 255, 0)); }
 .preview-courses-wrap::before { position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--line) 12%, var(--line) 88%, transparent); content: ""; }
@@ -217,40 +224,48 @@
 .skillpath-sort-label { color: #9aa3ae; font-size: 11px; }
 .skillpath-sort select { padding: 13px 2px; border: 0; outline: 0; color: #253040; background: transparent; cursor: pointer; font-size: 12px; font-weight: 600; }
 .skillpath-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.skillpath-card { min-width: 0; overflow: hidden; border: 1px solid rgba(218, 226, 237, .98); border-radius: 19px; background: rgba(255, 255, 255, .84); box-shadow: 0 14px 34px rgba(35, 57, 95, .045); transform-style: preserve-3d; transition: border-color .25s ease, box-shadow .25s ease; }
-.skillpath-card:hover { border-color: rgba(49, 94, 251, .25); box-shadow: 0 22px 46px rgba(35, 57, 95, .10); }
-.skillpath-course-card { min-height: 391px; }
-.skillpath-card-art { position: relative; isolation: isolate; height: 140px; overflow: hidden; background: #182334; }
-.skillpath-card-art::before { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255, 255, 255, .13), transparent 38%, rgba(0, 0, 0, .22)); content: ""; transition: opacity .25s ease; }
+.skillpath-card { position: relative; min-width: 0; overflow: hidden; border: 1px solid rgba(211, 221, 235, .96); border-radius: 26px; background: rgba(255, 255, 255, .68); box-shadow: 0 18px 50px rgba(35, 57, 95, .065), inset 0 1px rgba(255, 255, 255, .98); backdrop-filter: blur(18px); transform-style: preserve-3d; transition: opacity .3s ease, filter .3s ease, border-color .35s ease, box-shadow .35s ease; }
+.skillpath-card::before { position: absolute; z-index: 3; inset: 0; pointer-events: none; border: 1px solid rgba(255, 255, 255, .5); border-radius: inherit; background: linear-gradient(125deg, rgba(255, 255, 255, .3), transparent 31%, transparent 72%, rgba(49, 94, 251, .06)); content: ""; opacity: .58; transition: opacity .35s ease; }
+.skillpath-card:hover { border-color: rgba(49, 94, 251, .36); box-shadow: 0 26px 60px rgba(35, 57, 95, .14), inset 0 1px rgba(255, 255, 255, 1); }
+.skillpath-card:hover::before { opacity: 1; }
+.skillpath-course-card { min-height: 441px; }
+.skillpath-card-art { position: relative; isolation: isolate; height: 182px; overflow: hidden; background: #182334; }
+.skillpath-card-art::before { position: absolute; z-index: 2; inset: 0; background: linear-gradient(116deg, rgba(255, 255, 255, .20), transparent 34%, rgba(0, 0, 0, .28)); content: ""; opacity: .82; transform: translateX(-4%); transition: opacity .35s ease, transform .55s cubic-bezier(.22, 1, .36, 1); }
 .skillpath-card-art::after { position: absolute; z-index: 0; inset: -38%; background: radial-gradient(circle at 32% 66%, rgba(24, 184, 138, .35), transparent 21%), radial-gradient(circle at 70% 30%, rgba(95, 132, 255, .42), transparent 26%), radial-gradient(circle at 52% 54%, rgba(255, 255, 255, .11), transparent 18%); content: ""; opacity: .46; mix-blend-mode: screen; animation: skillpath-heatmap-drift 8s ease-in-out infinite alternate; }
-.skillpath-card:hover .skillpath-card-art::before { opacity: .56; }
+.skillpath-card:hover .skillpath-card-art::before { opacity: .57; transform: translateX(2%); }
 .skillpath-card:hover .skillpath-card-art::after { opacity: .78; }
 .skillpath-card-art-1 { background: radial-gradient(circle at 72% 28%, rgba(57, 121, 255, .9), transparent 4rem), linear-gradient(135deg, #0d1727, #1e3e76 58%, #0c1320); }
 .skillpath-card-art-2 { background: radial-gradient(circle at 24% 84%, rgba(38, 201, 144, .8), transparent 4rem), linear-gradient(135deg, #1e2832, #556273 55%, #19232f); }
 .skillpath-card-art-3 { background: radial-gradient(circle at 72% 32%, rgba(255, 255, 255, .58), transparent 3rem), linear-gradient(135deg, #10205c, #315efb 54%, #16203a); }
 .skillpath-card-art-4 { background: radial-gradient(circle at 56% 35%, rgba(207, 220, 255, .4), transparent 4rem), linear-gradient(135deg, #121821, #2a303b 55%, #0e1219); }
-.skillpath-art-line { position: absolute; z-index: 1; width: 170%; height: 1px; background: rgba(255, 255, 255, .22); transform: rotate(-27deg); transition: transform .5s ease, opacity .3s ease; }
+.skillpath-card-art-kicker { position: absolute; z-index: 2; top: 17px; left: 18px; color: rgba(255, 255, 255, .72); font-size: 8px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+.skillpath-art-line { position: absolute; z-index: 1; width: 170%; height: 1px; background: rgba(255, 255, 255, .22); transform: rotate(-27deg); transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .3s ease; }
 .skillpath-art-line-one { top: 28px; left: -32px; }
 .skillpath-art-line-two { top: 72px; left: -10px; opacity: .55; transform: rotate(15deg); }
 .skillpath-card:hover .skillpath-art-line-one { transform: translateX(14px) rotate(-27deg); }
 .skillpath-card:hover .skillpath-art-line-two { transform: translateX(-12px) rotate(15deg); }
 .skillpath-art-orb { position: absolute; z-index: 1; right: 18%; bottom: 17%; width: 48px; height: 48px; border: 1px solid rgba(255, 255, 255, .5); border-radius: 50%; box-shadow: inset -9px -8px 18px rgba(0, 0, 0, .28), 0 0 25px rgba(255, 255, 255, .1); transition: transform .5s cubic-bezier(.22, 1, .36, 1), box-shadow .5s ease; }
 .skillpath-card:hover .skillpath-art-orb { box-shadow: inset -9px -8px 18px rgba(0, 0, 0, .18), 0 0 31px rgba(255, 255, 255, .22); transform: translate(-7px, -5px) scale(1.08); }
-.skillpath-art-index { position: absolute; z-index: 1; right: 14px; bottom: 12px; color: rgba(255, 255, 255, .58); font-size: 10px; font-weight: 600; letter-spacing: .1em; }
-.skillpath-card-content { display: flex; flex-direction: column; min-height: 251px; padding: 19px 19px 18px; }
+.skillpath-art-index { position: absolute; z-index: 1; right: 17px; bottom: 15px; color: rgba(255, 255, 255, .58); font-size: 10px; font-weight: 600; letter-spacing: .1em; }
+.skillpath-art-arrow { position: absolute; z-index: 2; right: 17px; top: 16px; display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid rgba(255, 255, 255, .32); border-radius: 50%; color: rgba(255, 255, 255, .9); background: rgba(12, 21, 42, .18); font-size: 15px; font-weight: 400; transition: background-color .35s ease, border-color .35s ease, transform .45s cubic-bezier(.22, 1, .36, 1); }
+.skillpath-card:hover .skillpath-art-arrow { border-color: rgba(255, 255, 255, .64); background: rgba(255, 255, 255, .16); transform: rotate(45deg); }
+.skillpath-card-content { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 259px; padding: 21px 22px 20px; background: linear-gradient(180deg, rgba(255, 255, 255, .82), rgba(250, 252, 255, .54)); }
 .skillpath-card-topline, .skillpath-card-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .skillpath-category, .skillpath-course-type { color: var(--skillpath-accent); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .skillpath-course-type { max-width: 45%; overflow: hidden; color: #9aa4b0; letter-spacing: .03em; text-overflow: ellipsis; white-space: nowrap; }
-.skillpath-card h3 { display: -webkit-box; overflow: hidden; margin: 19px 0 10px; font-family: "Manrope", sans-serif; font-size: 21px; line-height: 1.11; letter-spacing: -.055em; font-weight: 700; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.skillpath-card-heading-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin: 18px 0 10px; }
+.skillpath-card h3 { display: -webkit-box; overflow: hidden; margin: 0; font-family: "Manrope", sans-serif; font-size: 22px; line-height: 1.1; letter-spacing: -.055em; font-weight: 700; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.skillpath-card-arrow { display: grid; width: 28px; height: 28px; flex: 0 0 auto; place-items: center; margin-top: -2px; border: 1px solid rgba(211, 221, 235, .95); border-radius: 50%; color: #6d7b8f; background: rgba(255, 255, 255, .65); font-size: 15px; transition: color .3s ease, border-color .3s ease, background-color .3s ease, transform .45s cubic-bezier(.22, 1, .36, 1); }
+.skillpath-card:hover .skillpath-card-arrow { border-color: rgba(49, 94, 251, .28); color: var(--skillpath-accent); background: #edf2ff; transform: rotate(45deg); }
 .skillpath-card p { display: -webkit-box; overflow: hidden; margin: 0; color: #788392; font-size: 13px; line-height: 1.62; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-.skillpath-card-footer { align-items: end; margin-top: auto; padding-top: 17px; border-top: 1px solid #e8edf3; }
+.skillpath-card-footer { align-items: end; margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(225, 231, 240, .9); }
 .skillpath-price { display: block; color: var(--ink); font-family: "Manrope", sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -.045em; }
 .skillpath-price-caption { display: block; margin-top: 5px; color: #9da6b1; font-size: 9px; }
 .skillpath-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 999px; color: #258465; background: #e8f7f1; font-size: 9px; font-weight: 600; }
-.skillpath-card-skeleton { min-height: 391px; padding: 19px; background: linear-gradient(110deg, rgba(255, 255, 255, .86), rgba(239, 244, 250, .95), rgba(255, 255, 255, .86)); background-size: 220% 100%; animation: skillpath-shimmer 1.6s ease-in-out infinite; }
+.skillpath-card-skeleton { min-height: 441px; padding: 22px; background: linear-gradient(110deg, rgba(255, 255, 255, .86), rgba(239, 244, 250, .95), rgba(255, 255, 255, .86)); background-size: 220% 100%; animation: skillpath-shimmer 1.6s ease-in-out infinite; }
 .skillpath-skeleton-bar { width: 33%; height: 9px; border-radius: 6px; background: #e2e8f0; }
 .skillpath-skeleton-bar-small { margin-top: 4px; }
-.skillpath-skeleton-block { height: 140px; margin: 18px -19px 18px; background: #e9eef5; }
+.skillpath-skeleton-block { height: 182px; margin: 18px -22px 18px; background: #e9eef5; }
 .skillpath-skeleton-line { width: 80%; height: 13px; margin-bottom: 10px; border-radius: 7px; background: #e2e8f0; }
 .skillpath-skeleton-line-wide { width: 92%; height: 22px; }
 .skillpath-skeleton-footer { width: 38%; height: 22px; margin-top: auto; border-radius: 7px; background: #e2e8f0; }
@@ -267,11 +282,18 @@
 .skillpath-state-kicker { margin: 18px 0 8px; color: var(--skillpath-accent); font-size: 10px; font-weight: 700; letter-spacing: .16em; }
 .skillpath-state h3 { margin: 0 0 8px; font-family: "Manrope", sans-serif; font-size: 24px; letter-spacing: -.055em; font-weight: 700; }
 .skillpath-state p:not(.skillpath-state-kicker) { max-width: 390px; margin: 0 auto 21px; color: #7b8794; font-size: 13px; line-height: 1.62; }
-.skillpath-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 0; border-radius: 10px; padding: 13px 18px; color: #fff; background: var(--skillpath-accent); box-shadow: 0 10px 22px rgba(49, 94, 251, .17); cursor: pointer; font-size: 13px; font-weight: 600; transition: box-shadow .2s ease, transform .2s ease, background .2s ease; }
-.skillpath-button:hover { box-shadow: 0 13px 27px rgba(49, 94, 251, .24); transform: translateY(-2px); }
-.skillpath-button-secondary { color: var(--ink); background: #e9eef5; box-shadow: none; }
-.skillpath-button-secondary:hover { background: #dfe7f1; box-shadow: none; }
+.skillpath-button { position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: 10px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .28); border-radius: 12px; padding: 13px 18px; color: #fff !important; background: linear-gradient(135deg, #2d62ff 0%, #466bff 56%, #7467f6 100%); box-shadow: 0 13px 27px rgba(49, 94, 251, .19), inset 0 1px rgba(255, 255, 255, .35); cursor: pointer; font-size: 13px; font-weight: 600; transition: box-shadow .24s ease, transform .24s cubic-bezier(.22, 1, .36, 1), filter .24s ease; }
+.skillpath-button::before { position: absolute; z-index: -1; top: -70%; left: -25%; width: 38%; height: 240%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .30), transparent); content: ""; opacity: .75; transform: rotate(18deg) translateX(-160%); transition: transform .65s cubic-bezier(.22, 1, .36, 1); }
+.skillpath-button:hover, .skillpath-button:focus-visible { box-shadow: 0 18px 34px rgba(49, 94, 251, .26), inset 0 1px rgba(255, 255, 255, .42); filter: saturate(1.08); transform: translateY(-2px); }
+.skillpath-button:hover::before, .skillpath-button:focus-visible::before { transform: rotate(18deg) translateX(450%); }
+.skillpath-button > span { position: relative; z-index: 1; }
+.skillpath-button-secondary { border-color: rgba(201, 211, 226, .94); color: var(--ink) !important; background: rgba(241, 245, 250, .88); box-shadow: inset 0 1px rgba(255, 255, 255, .98); }
+.skillpath-button-secondary:hover, .skillpath-button-secondary:focus-visible { border-color: rgba(49, 94, 251, .25); color: var(--ink) !important; background: #edf2ff; box-shadow: 0 10px 22px rgba(49, 94, 251, .10), inset 0 1px rgba(255, 255, 255, .98); }
 .skillpath-visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (hover: hover) and (pointer: fine) {
+  .skillpath-grid:has(.skillpath-course-card:hover) .skillpath-course-card:not(:hover) { filter: saturate(.72) opacity(.68); }
+}
 
 @media (max-width: 980px) {
   .preview-nav { width: calc(100% - 56px); padding-inline: 16px; }
@@ -285,6 +307,7 @@
   .preview-courses-wrap { padding-inline: 40px; }
   .preview-proof { padding-inline: 40px; }
   .preview-proof-marquee { margin-inline: -40px; padding-inline: 40px; }
+  .preview-proof-ticker-hint { right: 40px; }
   .skillpath-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 720px) {
@@ -306,7 +329,9 @@
   .preview-proof-items { grid-template-columns: 1fr; gap: 13px; }
   .preview-proof-item, .preview-proof-item:first-child, .preview-proof-item:last-child { padding: 0 0 13px; border-right: 0; border-bottom: 1px solid var(--line); }
   .preview-proof-item:last-child { border-bottom: 0; }
-  .preview-proof-marquee { margin-inline: -20px; padding-inline: 20px; }
+  .preview-proof-marquee { margin-inline: -20px; padding: 11px 20px; mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+  .preview-proof-marquee::after { width: 88px; background: linear-gradient(90deg, transparent, rgba(247, 249, 253, .98) 82%); }
+  .preview-proof-ticker-hint { display: none; }
   .preview-courses-wrap { padding: 28px 20px 78px; }
   .preview-footer { grid-template-columns: 1fr; gap: 16px; padding: 22px 20px; }
   .preview-footer small { justify-self: start; }
@@ -322,9 +347,9 @@
   .skillpath-sort { justify-content: space-between; }
   .skillpath-sort select { flex: 1; }
   .skillpath-grid { grid-template-columns: 1fr; }
-  .skillpath-card-art { height: 150px; }
-  .skillpath-course-card { min-height: 400px; }
-  .skillpath-card-content { min-height: 250px; }
+  .skillpath-card-art { height: 164px; }
+  .skillpath-course-card { min-height: 421px; }
+  .skillpath-card-content { min-height: 257px; padding-inline: 20px; }
   .preview-orbit-cards { gap: 5px; }
   .preview-orbit-course { min-height: 112px; padding: 6px; }
   .preview-orbit-course-art { height: 42px; }

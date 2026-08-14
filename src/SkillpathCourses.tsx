@@ -229,17 +229,22 @@ function CourseCard({
       transition={{ layout: { duration: 0.42, ease } }}
     >
       <div className={`skillpath-card-art ${gradientClass}`} aria-hidden="true">
+        <span className="skillpath-card-art-kicker">LIVE COURSE / {visualSeed.index}</span>
         <span className="skillpath-art-line skillpath-art-line-one" />
         <span className="skillpath-art-line skillpath-art-line-two" />
         <span className="skillpath-art-orb" />
         <span className="skillpath-art-index">{visualSeed.index}</span>
+        <span className="skillpath-art-arrow" aria-hidden="true">↗</span>
       </div>
       <div className="skillpath-card-content">
         <div className="skillpath-card-topline">
           <span className="skillpath-category">{course.mainCategory}</span>
           {showRefundableBadge && course.refundable && <span className="skillpath-badge"><SignalDot tone="mint" /> Refundable</span>}
         </div>
-        <h3>{course.courseName}</h3>
+        <div className="skillpath-card-heading-row">
+          <h3>{course.courseName}</h3>
+          <span className="skillpath-card-arrow" aria-hidden="true">↗</span>
+        </div>
         <p>{course.description}</p>
         <div className="skillpath-card-footer">
           <div>
@@ -359,7 +364,8 @@ export function SkillpathCourses({
         <div className="skillpath-section-heading">
           <motion.div
             initial={reducedMotion ? undefined : { opacity: 0, y: 16 }}
-            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
             transition={{ duration: 0.55, delay: 0.08, ease }}
           >
             <div className="skillpath-heading-line">
@@ -372,7 +378,8 @@ export function SkillpathCourses({
           <motion.div
             className="skillpath-catalogue-meta"
             initial={reducedMotion ? undefined : { opacity: 0, y: 16 }}
-            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
             transition={{ duration: 0.55, delay: 0.16, ease }}
             aria-live="polite"
           >
@@ -427,7 +434,7 @@ export function SkillpathCourses({
                   </select>
                 </label>
               </div>
-              <motion.div className="skillpath-grid" variants={containerVariants} initial="hidden" animate="visible" layout>
+              <motion.div className="skillpath-grid" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.12 }} layout>
                 {visibleCourses.map((course) => (
                   <CourseCard key={course.courseCode} course={course} countryCode={countryCode} showRefundableBadge={showRefundableBadge} reducedMotion={reducedMotion} />
                 ))}

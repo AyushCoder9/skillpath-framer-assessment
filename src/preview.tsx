@@ -96,7 +96,31 @@ function LiveOrbit() {
 }
 
 function LiveSignalBand({ reducedMotion }: { reducedMotion: boolean | null }) {
-  const marqueeItems = ["LIVE API", "REGIONAL PRICING", "SEARCHABLE", "FRAMER-READY", "MOTION WITH PURPOSE"];
+  const tickerItems = [
+    { label: "LIVE API", detail: "requested now" },
+    { label: "REGIONAL PRICING", detail: "display-boundary safe" },
+    { label: "SEARCHABLE", detail: "course-level discovery" },
+    { label: "FRAMER-READY", detail: "portable component" },
+    { label: "MOTION WITH PURPOSE", detail: "reduced-motion aware" },
+    { label: "LIVE API", detail: "requested now" },
+    { label: "REGIONAL PRICING", detail: "display-boundary safe" },
+  ];
+  const viewportRef = React.useRef<HTMLDivElement>(null);
+  const trackRef = React.useRef<HTMLDivElement>(null);
+  const [dragLimit, setDragLimit] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    const measure = () => {
+      const viewport = viewportRef.current;
+      const track = trackRef.current;
+      if (!viewport || !track) return;
+      setDragLimit(Math.max(0, track.scrollWidth - viewport.clientWidth));
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   return (
     <section className="preview-proof" aria-label="Skillpath product principles">
@@ -112,14 +136,25 @@ function LiveSignalBand({ reducedMotion }: { reducedMotion: boolean | null }) {
           </div>
         ))}
       </div>
-      <div className="preview-proof-marquee" aria-hidden="true">
+      <div className="preview-proof-marquee" ref={viewportRef} aria-hidden="true">
         <motion.div
+          ref={trackRef}
           className="preview-proof-marquee-track"
-          animate={reducedMotion ? undefined : { x: ["0%", "-50%"] }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          drag={dragLimit > 0 ? "x" : false}
+          dragConstraints={{ left: -dragLimit, right: 0 }}
+          dragDirectionLock
+          dragElastic={0.08}
+          whileTap={reducedMotion ? undefined : { cursor: "grabbing" }}
         >
-          {[...marqueeItems, ...marqueeItems].map((item, index) => <span key={`${item}-${index}`}>{item}<i /></span>)}
+          {tickerItems.map((item, index) => (
+            <span key={`${item.label}-${index}`}>
+              <b>{item.label}</b>
+              <em>{item.detail}</em>
+              <i />
+            </span>
+          ))}
         </motion.div>
+        <span className="preview-proof-ticker-hint">drag / swipe <b aria-hidden="true">↔</b></span>
       </div>
     </section>
   );
