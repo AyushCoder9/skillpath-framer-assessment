@@ -3,7 +3,7 @@
 ### A live learning catalogue for WebVeda — resilient data, clear product states, and motion with purpose.
 
 <p align="center">
-  <a href="https://only-collection-516444.framer.app/"><strong>Published Framer page</strong></a> ·
+  <a href="https://only-collection-516444.framer.app/"><strong>Published Framer canvas</strong></a> ·
   <a href="https://skillpath-framer-assessment.vercel.app/"><strong>Vercel preview</strong></a> ·
   <a href="https://github.com/AyushCoder9/skillpath-framer-assessment"><strong>Source code</strong></a> ·
   <a href="https://www.framer.com/">Framer</a>
@@ -18,13 +18,20 @@
 </p>
 
 <p align="center">
-  <a href="https://only-collection-516444.framer.app/"><img src="https://img.shields.io/badge/OPEN_PUBLISHED_FRAMER_PAGE-2D62FF?style=for-the-badge&logo=framer&logoColor=white" alt="Open published Framer page" /></a>
+  <a href="https://only-collection-516444.framer.app/"><img src="https://img.shields.io/badge/OPEN_PUBLISHED_FRAMER_CANVAS-2D62FF?style=for-the-badge&logo=framer&logoColor=white" alt="Open published Framer canvas" /></a>
 </p>
 
 ![Skillpath live catalogue preview](https://raw.githubusercontent.com/AyushCoder9/skillpath-framer-assessment/master/framer-editor.png)
 
 > **WebVeda technical assessment · Junior Developer**
 > Skillpath is a production-shaped Framer catalogue component and standalone preview built around a simple idea: **reliability should be visible in the product, not hidden in the implementation.**
+
+## Production handoff
+
+- **Production preview:** [skillpath-framer-assessment.vercel.app](https://skillpath-framer-assessment.vercel.app/) — deployed from the `master` branch.
+- **Published Framer canvas:** [only-collection-516444.framer.app](https://only-collection-516444.framer.app/) — the separately published Framer handoff.
+- **Source of truth:** this repository contains the live-data component, standalone presentation, final responsive styling, and complete marketplace audit.
+- **Local preview:** run `npm run dev` and open the port printed by Vite (the verified local port for this handoff is `4175`).
 
 ---
 
@@ -50,6 +57,7 @@ Skillpath treats the catalogue as a live instrument rather than a static card gr
 - **Course discovery** through search across course name, description, category, short-course label, and course type.
 - **Featured and price sorting** that respects the active regional currency.
 - **Responsive course grid** that adapts from desktop to tablet to mobile.
+- **Crisp hover behavior** that keeps every card readable; the active card gains a restrained edge lift, depth, artwork movement, and arrow response without blurring or dimming its neighbors.
 - **Refundable badges** controlled by a Framer property control.
 - **Regional price status** that never guesses when the country endpoint fails.
 - **Accessible interaction states** with labels, visible focus rings, live regions, alert/status semantics, keyboard-friendly controls, and reduced-motion support.
@@ -161,14 +169,14 @@ The component accepts a forwarded `style` prop, keeps its CSS variables scoped t
 
 This repository includes the complete set of links and artifacts requested by the WebVeda assignment:
 
-1. **Published Framer page:** [only-collection-516444.framer.app](https://only-collection-516444.framer.app/)
+1. **Published Framer canvas:** [only-collection-516444.framer.app](https://only-collection-516444.framer.app/) — a separate published Framer handoff; GitHub pushes do not automatically mutate that canvas.
 2. **Public code:** [github.com/AyushCoder9/skillpath-framer-assessment](https://github.com/AyushCoder9/skillpath-framer-assessment)
 3. **Short assessment note:** [`SUBMISSION_NOTE.md`](./SUBMISSION_NOTE.md) — kept under the requested 200-word limit.
 4. **AI disclosure:** the note records that AI helped draft the initial fetch/component structure and that the response validation, failure handling, currency logic, cancellation, accessibility, responsive behavior, and motion were reviewed and rewritten.
 5. **Vercel preview:** [skillpath-framer-assessment.vercel.app](https://skillpath-framer-assessment.vercel.app/) — a standalone preview of the same component and interaction model.
 6. **Framer marketplace audit:** [`FRAMER_COMPONENTS_CATALOG.md`](./FRAMER_COMPONENTS_CATALOG.md) — an exhaustive 14 August 2026 snapshot of the public free-component inventory, category counts, detail links, published descriptions, and the patterns selected for this page.
 
-The published Framer page is the primary handoff link. The Vercel URL is included as a development/standalone preview; it is not a replacement for the requested Framer publication.
+The Vercel URL is the production preview for the repository-backed implementation. The Framer URL remains the separately published canvas requested for the assessment; sync it manually if the canvas itself must reflect later GitHub changes.
 
 ## Verification checklist
 
@@ -179,6 +187,8 @@ The published Framer page is the primary handoff link. The Vercel URL is include
 - [x] Regional pricing never falls back to a guessed currency.
 - [x] Search and sorting operate on the loaded catalogue.
 - [x] Responsive desktop/tablet/mobile layouts are included.
+- [x] The hero catalogue preview clears the sticky navigation at desktop and tablet sizes.
+- [x] Card hover keeps neighboring content sharp and readable; no cross-card blur or opacity dimming is used.
 - [x] Reduced-motion behavior is supported.
 - [x] Framer property controls and layout annotations are included.
 - [x] The public Framer component catalogue was cursor-scraped by category; all 2,671 free entries in the captured API snapshot are documented with detail links.
@@ -189,8 +199,8 @@ The published Framer page is the primary handoff link. The Vercel URL is include
 
 | Resource | URL |
 | --- | --- |
-| **Published Framer page** | [only-collection-516444.framer.app](https://only-collection-516444.framer.app/) |
-| **Vercel standalone preview** | [skillpath-framer-assessment.vercel.app](https://skillpath-framer-assessment.vercel.app/) |
+| **Published Framer canvas** | [only-collection-516444.framer.app](https://only-collection-516444.framer.app/) |
+| **Production Vercel preview** | [skillpath-framer-assessment.vercel.app](https://skillpath-framer-assessment.vercel.app/) |
 | **GitHub repository** | [github.com/AyushCoder9/skillpath-framer-assessment](https://github.com/AyushCoder9/skillpath-framer-assessment) |
 | **Portfolio** | [ayushkumarsingh-six.vercel.app](https://ayushkumarsingh-six.vercel.app/) |
 | **LinkedIn** | [Ayush Kumar Singh](https://www.linkedin.com/in/ayush-kumar-singh-910379320/) |

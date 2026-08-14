@@ -200,7 +200,7 @@ function Preview() {
 
       <LiveSignalBand reducedMotion={reducedMotion} />
       <div id="courses" className="preview-courses-wrap"><SkillpathCourses /></div>
-      <footer id="about" className="preview-footer"><a className="preview-brand" href="#top"><span className="preview-brand-mark" aria-hidden="true" />skillpath</a><div className="preview-footer-links"><a href="#about">About</a><a href="#courses">Courses</a><a href="https://only-collection-516444.framer.app/" target="_blank" rel="noreferrer">Published Framer page</a><a href="https://github.com/AyushCoder9/skillpath-framer-assessment" target="_blank" rel="noreferrer">GitHub</a></div><small>© 2026 Skillpath. Keep learning.</small></footer>
+      <footer id="about" className="preview-footer"><a className="preview-brand" href="#top"><span className="preview-brand-mark" aria-hidden="true" />skillpath</a><div className="preview-footer-links"><a href="#about">About</a><a href="#courses">Courses</a><a href="https://only-collection-516444.framer.app/" target="_blank" rel="noreferrer">Published Framer canvas</a><a href="https://github.com/AyushCoder9/skillpath-framer-assessment" target="_blank" rel="noreferrer">GitHub</a></div><small>© 2026 Skillpath. Keep learning.</small></footer>
     </main>
   );
 }

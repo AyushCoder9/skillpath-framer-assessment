@@ -434,7 +434,7 @@ export function SkillpathCourses({
                   </select>
                 </label>
               </div>
-              <motion.div className="skillpath-grid" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.12 }} layout>
+              <motion.div className="skillpath-grid" variants={containerVariants} initial="hidden" animate="visible" layout>
                 {visibleCourses.map((course) => (
                   <CourseCard key={course.courseCode} course={course} countryCode={countryCode} showRefundableBadge={showRefundableBadge} reducedMotion={reducedMotion} />
                 ))}
