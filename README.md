@@ -46,6 +46,7 @@ Skillpath treats the catalogue as a live instrument rather than a static card gr
 ## Product surface
 
 - **Live catalogue hero** with an animated orbital index and a clear “system live” signal.
+- **Motion-led visual system** with a sticky pill navigation, scroll progress rail, line-by-line headline reveal, ambient grid/noise, heatmap-inspired course art, and a restrained live-signal marquee.
 - **Course discovery** through search across course name, description, category, short-course label, and course type.
 - **Featured and price sorting** that respects the active regional currency.
 - **Responsive course grid** that adapts from desktop to tablet to mobile.
@@ -95,6 +96,8 @@ Motion is deliberately constrained to Framer primitives:
 - `motion` for entrance, hover, tap, and layout transitions.
 - `AnimatePresence` for state changes and regional price transitions.
 - `useScroll`, `useSpring`, and `useTransform` for the hero orbit/parallax layer.
+- `useMotionValueEvent` for the elevated floating navigation state and a spring-smoothed document progress rail.
+- CSS-only ambient layers for grid signals, grain, heatmap-inspired card art, and the marquee; these remain lightweight and have an explicit reduced-motion path.
 - `MotionConfig reducedMotion="user"` and `useReducedMotion` for accessibility.
 - CSS shimmer for loading skeletons; no external animation runtime.
 
@@ -112,6 +115,7 @@ There is no GSAP, Lottie, Three.js, external UI kit, copied template, custom ani
 │   ├── framer-stub.ts         # Local Vite alias for Framer editor APIs
 │   ├── framer.d.ts            # Minimal Framer typing surface for the preview
 │   └── vite-env.d.ts          # Vite client types
+├── FRAMER_COMPONENTS_CATALOG.md # Complete free-component marketplace audit snapshot
 ├── SUBMISSION_NOTE.md         # Short assessment handoff note
 ├── package.json               # Scripts and runtime dependencies
 ├── package-lock.json          # Reproducible dependency resolution
@@ -161,6 +165,7 @@ This repository includes the complete set of links and artifacts requested by th
 3. **Short assessment note:** [`SUBMISSION_NOTE.md`](./SUBMISSION_NOTE.md) — kept under the requested 200-word limit.
 4. **AI disclosure:** the note records that AI helped draft the initial fetch/component structure and that the response validation, failure handling, currency logic, cancellation, accessibility, responsive behavior, and motion were reviewed and rewritten.
 5. **Vercel preview:** [skillpath-framer-assessment.vercel.app](https://skillpath-framer-assessment.vercel.app/) — a standalone preview of the same component and interaction model.
+6. **Framer marketplace audit:** [`FRAMER_COMPONENTS_CATALOG.md`](./FRAMER_COMPONENTS_CATALOG.md) — an exhaustive 14 August 2026 snapshot of the public free-component inventory, category counts, detail links, published descriptions, and the patterns selected for this page.
 
 The published Framer page is the primary handoff link. The Vercel URL is included as a development/standalone preview; it is not a replacement for the requested Framer publication.
 
@@ -175,6 +180,8 @@ The published Framer page is the primary handoff link. The Vercel URL is include
 - [x] Responsive desktop/tablet/mobile layouts are included.
 - [x] Reduced-motion behavior is supported.
 - [x] Framer property controls and layout annotations are included.
+- [x] The public Framer component catalogue was cursor-scraped by category; all 2,671 free entries in the captured API snapshot are documented with detail links.
+- [x] The selected motion patterns were rebuilt locally rather than copying marketplace source code or paid components.
 - [x] Submission note documents trade-offs and follow-up opportunities.
 
 ## Links
